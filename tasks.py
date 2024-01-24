@@ -2,6 +2,7 @@ from invoke import task
 
 COMPETITION_NAME = "predict-energy-behavior-of-prosumers"
 SCRIPT_DIRNAME = "enefitscripts"
+MODEL_DIRNAME = "enefitmodel"
 
 
 @task
@@ -20,4 +21,7 @@ def dsup(ctx, message: str = "'new version'"):
     # TODO: construct message from datetime and commit-hash
     ctx.run(
         f"kaggle datasets version -m {message} --path {SCRIPT_DIRNAME} --dir-mode=zip"
+    )
+    ctx.run(
+        f"kaggle datasets version -m {message} --path {MODEL_DIRNAME} --dir-mode=zip"
     )
