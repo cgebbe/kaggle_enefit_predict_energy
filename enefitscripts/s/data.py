@@ -28,9 +28,18 @@ def get_data_dirpath():
 
 
 def _convert_datetime_polars(df: pl.DataFrame):
+    col_dtype = df["datetime"].dtype
+    if isinstance(col_dtype, pl.Datetime):
+        pass
+    # FIXME: How is this correct?!
+    elif issubclass(col_dtype, pl.Utf8):
+        df = df.with_columns(
+            pl.col("datetime").str.to_datetime("%Y-%m-%d %H:%M:%S"),
+        )
+    else:
+        raise NotImplementedError(f"{col_dtype=}")
+
     return df.with_columns(
-        pl.col("datetime").str.to_datetime("%Y-%m-%d %H:%M:%S"),
-    ).with_columns(
         date=pl.col("datetime").dt.date(),
         hour=pl.col("datetime").dt.hour(),
         weekday=pl.col("datetime").dt.weekday(),

@@ -15,6 +15,7 @@ def dsup(ctx, message: str = "'new version'"):
     - only then version to update
 
     TODO:
+    - delete __pycache__ folder
     - for reproducibility: insert datetime, commit and git-diff ?! into it
     - when importing enefitscripts, print reproducibility information!
     """
